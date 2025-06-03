@@ -3,7 +3,7 @@
   hosts: mongodb
   tasks:
   - name: create an entry for repo
-    ansible.builitin.copy:
+    ansible.builtin.copy:
       src: mongodb.repo
       dest: /etc/yum.repos.d/mongo.repo
 
@@ -29,6 +29,6 @@
       replace: '0.0.0.0'
 
   - name: start mongodb
-    ansible.builitin.service:
+    ansible.builtin.service:
       name: mongod
       state: restarted
