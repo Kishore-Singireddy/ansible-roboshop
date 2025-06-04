@@ -8,7 +8,7 @@
   - name: enable nodejs
     ansible.builtin.command: dnf module enable nodejs:20 -y 
   
-  - name: installl nodejs
+  - name: install nodejs
     ansible.builtin.dnf:
       name: nodejs
       state: present
@@ -61,8 +61,8 @@
       name: mongodb-mongosh
       state: present
   
-  - name: Loading catalogue data to mongodb
-    ansible.builtin.command: mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+  - name: Loading catalogue/products data to mongodb
+    ansible.builtin.command: mongosh --host mongodb.singireddy.shop --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
     register: catalogue_output
 
   - name: print catalogue output 
@@ -70,7 +70,7 @@
       msg: "{{ catalogue_output }}"
   
   - name: load data to mongodb
-    ansible.builtin.shell: mongosh --host mongodb.daws84s.site < /app/db/master-data.js
+    ansible.builtin.shell: mongosh --host mongodb.singireddy.shop < /app/db/master-data.js
     when: catalogue_output.stdout | int < 0
     
 

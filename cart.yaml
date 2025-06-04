@@ -1,0 +1,52 @@
+- name: cart configuration
+  hosts: cart
+  become: yes
+  tasks:
+  - name: disable nodejs
+    ansible.builtin.command: dnf module disable nodejs -y
+  
+  - name: enable nodejs
+    ansible.builtin.command: dnf module enable nodejs:20 -y 
+  
+  - name: install nodejs
+    ansible.builtin.dnf:
+      name: nodejs
+      state: present
+
+  - name: create roboshop system user
+    ansible.builtin.user:
+      name: roboshop
+      shell: /sbin/nologin
+      home: /app 
+      system: true 
+
+  - name: creating app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
+  - name: download cart code
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
+      dest: /tmp/cart.zip
+
+  - name: extract cart code
+    ansible.builtin.unarchive:
+      src: /tmp/cart.zip #since the soruce dir is on the remote server, i.e not on where the script is run
+      dest: /app
+      remote_src: yes #remote_src is used when the file already exits on remote server
+
+  - name: install dependencies 
+    ansible.community.general.npm:
+     path: /app
+
+  - name: configuring systemd - Copying cart service to remote
+    ansible.builtin.copy:
+      src: cart.service
+      dest: /etc/systemd/system/cart.service
+
+  - name: starting and reloading systemd
+    ansible.builtin.systemd_service:
+      name: cart
+      state: restarted
+      daemon_reload: yes
