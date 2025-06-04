@@ -22,12 +22,12 @@
   - name: delete the default html dir
     ansible.builtin.file:
       path: /usr/share/nginx/html
-      status: absent
+      state: absent
   
   - name: create html dir
     ansible.builtin.file:
       path: /usr/share/nginx/html
-      status: present
+      state: present
   
   - name: downlaod the frontend contents
     ansible.builtin.get_url:
