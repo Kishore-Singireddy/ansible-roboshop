@@ -53,7 +53,7 @@
 
   - name: Setting up mongodb - copying repo
     ansible.builtin.copy:
-      src: mongodb.repo
+      src: mongo.repo
       dest: /etc/yum.repos.d/mongo.repo
   
   - name: Setting up mongodb - installing mongodb client
