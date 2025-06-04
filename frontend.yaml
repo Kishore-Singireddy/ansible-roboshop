@@ -43,7 +43,7 @@
   - name: proxy configuration - remove the nginx.conf
     ansible.builtin.file:
       path: /etc/nginx/nginx.conf
-      status: absent
+      state: absent
   
   - name: proxy configuration - copy the conf file from local
     ansible.builtin.copy: 
