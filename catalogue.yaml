@@ -37,7 +37,7 @@
       remote_src: yes #remote_src is used when the file already exits on remote server
 
   - name: install dependencies 
-    ansible.community.general.npm:
+    community.general.npm:
      path: /app
 
   - name: configuring systemd - Copying catalogue service to remote
