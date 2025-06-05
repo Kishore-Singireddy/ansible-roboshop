@@ -14,7 +14,7 @@
       enabled: yes
   
   - name: change mysql root password
-    ansible.community.mysql.mysqluser:
+    community.mysql.mysqluser:
       name: root
       password: RoboShop@1
 
